@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ATELIER ÉLITE — Curated Luxury Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#25231f;
+    --ink-soft:#777064;
+    --paper:#f2eee6;
+    --paper-dim:#e8e1d5;
+    --card:#faf8f3;
+    --gold:#a99b83;
+    --gold-bright:#b5a58d;
+    --emerald:#39352f;
+    --rule:#d8cfc1;
+    --shadow: 0 1px 2px rgba(22,19,16,.04);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#f2eee6; --ink-soft:#c9c0b2; --paper:#201f1c; --paper-dim:#2a2824;
+      --card:#292722; --gold:#c2b398; --gold-bright:#d8cbb6; --emerald:#b5a58d;
+      --rule:#48443d;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#f2eee6; --ink-soft:#c9c0b2; --paper:#201f1c; --paper-dim:#2a2824;
+    --card:#292722; --gold:#c2b398; --gold-bright:#d8cbb6; --emerald:#b5a58d;
+    --rule:#48443d;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Manrope',sans-serif; -webkit-font-smoothing:antialiased;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper);}
+
+  header{
+    position:sticky; top:0; z-index:20; background:var(--paper);
+    padding-top:env(safe-area-inset-top,0px);
+    border-bottom:1px solid var(--rule);
+  }
+  .top{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 5vw 14px;
+  }
+  .brand-lockup{display:flex;flex-direction:column;gap:2px;}
+  .wordmark{
+    font-family:'Cormorant Garamond',serif; font-size:clamp(30px,4vw,43px);
+    letter-spacing:.055em; font-weight:500; margin:0; line-height:1;
+  }
+  .brand-tagline{
+    margin:5px 0 0; color:var(--ink-soft); font-size:9px;
+    letter-spacing:.22em; text-transform:uppercase; font-weight:600;
+  }
+  .tools{display:flex; align-items:center; gap:18px;}
+  .theme-btn, .wish-btn{
+    background:none;border:1px solid var(--rule); color:var(--ink);
+    width:40px;height:40px;border-radius:50%; cursor:pointer;
+    display:flex;align-items:center;justify-content:center; font-size:16px;
+    transition:border-color .2s ease, transform .15s ease;
+    position:relative;
+  }
+  .theme-btn:hover,.wish-btn:hover{border-color:var(--gold-bright)}
+  .wish-count{
+    position:absolute; top:-6px; right:-6px; background:var(--emerald); color:#fff;
+    font-size:10px; min-width:17px; height:17px; border-radius:9px; display:flex;
+    align-items:center; justify-content:center; font-family:'Manrope',sans-serif; padding:0 3px;
+  }
+
+  .controls{
+    display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center;
+    padding:0 5vw 18px; justify-content:space-between;
+  }
+  .chips{display:flex; gap:8px; flex-wrap:wrap;}
+  .chip{
+    font-family:'Manrope',sans-serif; font-size:13px; padding:7px 15px;
+    border:1px solid var(--rule); border-radius:20px; background:transparent;
+    color:var(--ink-soft); cursor:pointer; transition:all .2s ease;
+  }
+  .chip.active{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+  :root[data-theme="dark"] .chip.active{background:var(--gold-bright); color:#161310; border-color:var(--gold-bright);}
+
+  .searchsort{display:flex; gap:10px; align-items:center;}
+  #search{
+    font-family:'Manrope',sans-serif; font-size:13px; padding:8px 14px;
+    border:1px solid var(--rule); border-radius:20px; background:var(--card); color:var(--ink);
+    width:180px; outline:none;
+  }
+  #search:focus{border-color:var(--gold-bright)}
+  #sort{
+    font-family:'Manrope',sans-serif; font-size:13px; padding:8px 12px;
+    border:1px solid var(--rule); border-radius:20px; background:var(--card); color:var(--ink-soft);
+  }
+
+  main{padding:8px 5vw 60px;}
+  .intro{padding:36px 0 24px;text-align:center;}
+  .intro-kicker{margin:0 0 10px;color:var(--ink-soft);font-size:9px;font-weight:700;letter-spacing:.24em;}
+  .intro h1{margin:0;font-family:'Cormorant Garamond',serif;font-size:clamp(29px,4vw,44px);font-weight:400;line-height:1.1;}
+  .intro h1 em{font-weight:400;color:var(--gold);font-style:italic;}
+  .intro-copy{margin:10px auto 0;max-width:480px;color:var(--ink-soft);font-size:12px;line-height:1.7;}
+  .count{font-size:12px; color:var(--ink-soft); margin:0 0 16px; letter-spacing:.02em;}
+
+  .grid{
+    column-count:1; column-gap:20px;
+  }
+  @media(min-width:620px){ .grid{column-count:2;} }
+  @media(min-width:960px){ .grid{column-count:3;} }
+  @media(min-width:1300px){ .grid{column-count:4;} }
+  @media(max-width:520px){
+    .top{padding:18px 5vw 12px;}
+    .intro{padding:28px 0 20px;}
+    .brand-tagline{font-size:8px;letter-spacing:.16em;}
+  }
+
+  .card{
+    break-inside:avoid; margin-bottom:20px; background:var(--card);
+    border:1px solid var(--rule); border-radius:4px; overflow:hidden;
+    cursor:pointer; opacity:0; transform:translateY(14px);
+    animation:rise .5s ease forwards;
+  }
+  @keyframes rise{to{opacity:1; transform:none;}}
+  .art{
+    position:relative; width:100%; height:300px; display:flex;
+    align-items:center; justify-content:center; overflow:hidden;
+    padding:14px; background:var(--paper-dim); color:var(--ink);
+  }
+  .art img{
+    display:block; width:100%; height:100%; max-width:100%; max-height:100%;
+    object-fit:contain; object-position:center; padding:10px;
+    transition:transform .4s ease;
+  }
+  .card:hover .art img{transform:scale(1.025);}
+  .modal .art{height:270px;min-height:270px;}
+  .art .tag{
+    font-size:11px; letter-spacing:.06em; background:rgba(37,35,31,.78);
+    backdrop-filter:blur(2px); padding:4px 10px; border-radius:20px;
+    position:absolute; top:14px; left:14px;
+  }
+  .art .brand{
+    font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:500; line-height:1.1;
+    text-shadow:0 2px 10px rgba(0,0,0,.35);
+  }
+  .heart{
+    position:absolute; top:12px; right:12px; width:32px; height:32px; border-radius:50%;
+    border:none; background:rgba(255,255,255,.85); color:#c0392b; font-size:15px;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:transform .15s ease;
+  }
+  .heart:hover{transform:scale(1.1)}
+  .heart.on::before{content:"♥"}
+  .heart::before{content:"♡"}
+
+  .info{padding:16px 16px 18px;}
+  .info h3{margin:0 0 4px; font-family:'Cormorant Garamond',serif; font-weight:500; font-size:16px;}
+  .price{color:var(--gold); font-weight:600; font-size:14.5px; margin:2px 0 6px;}
+  .desc{font-size:12.5px; color:var(--ink-soft); margin:0 0 14px; line-height:1.4;}
+  .buy{
+    width:100%; padding:10px; background:var(--emerald); color:#f6f1e9; border:none;
+    border-radius:2px; font-family:'Manrope',sans-serif; font-size:13px; letter-spacing:.03em;
+    cursor:pointer; transition:background .2s ease;
+  }
+  .buy:hover{background:var(--gold); color:#161310;}
+
+  .empty{display:none; text-align:center; padding:80px 20px; color:var(--ink-soft);}
+  .empty.show{display:block;}
+
+  /* modal */
+  .overlay{
+    position:fixed; inset:0; background:rgba(10,9,8,.6); display:none;
+    align-items:center; justify-content:center; z-index:40; padding:24px;
+  }
+  .overlay.show{display:flex;}
+  .modal{
+    background:var(--card); max-width:520px; width:100%; border-radius:6px; overflow:hidden;
+    border:1px solid var(--rule);
+  }
+  .modal .art{min-height:220px;}
+  .modal .info{padding:22px;}
+  .modal h3{font-size:22px;}
+  .modal .desc{font-size:13.5px;}
+  .close{
+    position:absolute; top:12px; right:12px; background:rgba(255,255,255,.85); border:none;
+    width:30px;height:30px;border-radius:50%; cursor:pointer; font-size:16px;
+  }
+
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--ink); color:var(--paper); padding:12px 22px; border-radius:30px;
+    font-size:13px; opacity:0; transition:all .3s ease; z-index:50; pointer-events:none;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  @media(max-width:520px){.art{height:250px;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="top">
+    <div class="brand-lockup">
+      <p class="wordmark">ATELIER ÉLITE</p>
+      <p class="brand-tagline">Less, but exceptional.</p>
+    </div>
+    <div class="tools">
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">◐</button>
+      <button class="wish-btn" id="wishBtn" aria-label="Wishlist">♡<span class="wish-count" id="wishCount" style="display:none">0</span></button>
+    </div>
+  </div>
+  <div class="controls">
+    <div class="chips" id="chips"></div>
+    <div class="searchsort">
+      <input id="search" type="text" placeholder="Search the edit…">
+      <select id="sort">
+        <option value="curated">Curated</option>
+        <option value="low">Price: low to high</option>
+        <option value="high">Price: high to low</option>
+        <option value="az">Name A–Z</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="intro">
+    <p class="intro-kicker">THE ART OF REFINED STYLE</p>
+    <h1>Timeless pieces. <em>Considered details.</em></h1>
+    <p class="intro-copy">A considered selection of exceptional fashion, accessories and fine jewellery.</p>
+  </section>
+  <p class="count" id="count"></p>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">Nothing matches that search — try another term.</div>
+</main>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modalBody"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const products = [
+  {id:1,  img:"https://i.postimg.cc/fbgbmKLh/Screenshot-2025-04-30-214053.png", brand:"Bottega Veneta", item:"Leather Shirt", cat:"Apparel", price:623290, desc:"Flannel-effect printed leather.", c1:"#6b4a3a", c2:"#2c1e17", h:300, icon:"shirt"},
+  {id:2,  img:"https://i.postimg.cc/g2tCzBj8/Screenshot-2025-04-30-215300.png", brand:"Gucci", item:"Wool Coat", cat:"Apparel", price:846392, desc:"Green-white houndstooth pattern.", c1:"#4a5c45", c2:"#1d241b", h:260, icon:"coat"},
+  {id:3,  img:"https://i.postimg.cc/qRSzVLVG/Screenshot-2025-04-30-213715.png", brand:"Valentino", item:"Wool Blazer", cat:"Apparel", price:357000, desc:"Ivory wool blend, monogram pattern.", c1:"#8a8478", c2:"#3a362f", h:230, icon:"blazer"},
+  {id:4,  img:"https://i.postimg.cc/fRdVWnbV/Screenshot-20250501-091318-2.png", brand:"Monsieur Fred", item:"Inner Light Jewellery", cat:"Jewelry", price:2020000, desc:"Gemstones bursting with life.", c1:"#7a6a2e", c2:"#2e2712", h:280, icon:"necklace"},
+  {id:5,  img:"https://i.postimg.cc/W1TtvzKx/Screenshot-2025-04-30-213949.png", brand:"Louis Vuitton", item:"Keepall Bag", cat:"Bags", price:7851558, desc:"Modern travel bag, large size.", c1:"#5c2e2e", c2:"#201010", h:320, icon:"bag"},
+  {id:6,  img:"https://i.postimg.cc/NFXLgHQv/Screenshot-2025-04-30-213905.png", brand:"Dior", item:"Sweater", cat:"Apparel", price:106588, desc:"Wool and cashmere blend.", c1:"#9a8f7a", c2:"#3e392f", h:250, icon:"sweater"},
+  {id:7,  img:"https://i.postimg.cc/v8x47pf2/Screenshot-2025-04-30-213813.png", brand:"Celine", item:"Triomphe Bag", cat:"Bags", price:454800, desc:"Leather, signature clasp.", c1:"#4b3b2a", c2:"#1a140d", h:270, icon:"bag"},
+  {id:8,  img:"https://i.postimg.cc/gkvrQ8Mv/Screenshot-2025-04-30-213849.png", brand:"Calvin Klein", item:"T-Shirt", cat:"Apparel", price:3830, desc:"Regenerative cotton.", c1:"#2b2b2b", c2:"#0c0c0c", h:210, icon:"tshirt"},
+  {id:9,  img:"https://i.postimg.cc/7ZHxtYns/IMG-0315.jpg", brand:"Cartier", item:"Panthère de Cartier Necklace", cat:"Jewelry", price:1810000, desc:"With tsavorite and onyx.", c1:"#6e1f23", c2:"#260a0c", h:300, icon:"necklace"},
+  {id:10, img:"https://i.postimg.cc/RVwb19Nd/Screenshot-2025-05-03-212512.png", brand:"Tiffany & Co.", item:"Diamond Bracelet", cat:"Jewelry", price:2540000, desc:"18k gold and pavé diamonds.", c1:"#2f5450", c2:"#10201e", h:260, icon:"bracelet"},
+];
+
+const ICONS = {
+  shirt: '<svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M34 16 44 9 50 18 56 9 66 16 76 30 64 40 64 92 36 92 36 40 24 30Z"/><path d="M50 18v14M40 55h20"/></svg>',
+  coat: '<svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M28 14 42 6 50 18 58 6 72 14 82 32 70 42 70 94 30 94 30 42 18 32Z"/><path d="M50 18 44 94M50 18 56 94"/></svg>',
+  blazer: '<svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M30 14 44 8 50 20 56 8 70 14 80 30 68 40 68 90 32 90 32 40 20 30Z"/><path d="M50 20 38 46M50 20 62 46M44 70h2M54 70h2"/></svg>',
+  sweater: '<svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M32 20 20 28 22 42 32 38 32 90 68 90 68 38 78 42 80 28 68 20 58 26 42 26Z"/></svg>',
+  tshirt: '<svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M34 18 18 28 24 42 34 36 34 88 66 88 66 36 76 42 82 28 66 18 58 24 42 24Z"/></svg>',
+  bag: '<svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M38 38c0-16 24-16 24 0"/><rect x="22" y="38" width="56" height="48" rx="4"/><path d="M22 58h56"/></svg>',
+  necklace: '<svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 20c0 28 18 40 28 40s28-12 28-40"/><path d="M50 60 42 72 50 86 58 72Z" fill="#fff"/></svg>',
+  bracelet: '<svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="50" cy="55" rx="34" ry="20"/><path d="M50 35 44 46 50 55 56 46Z" fill="#fff"/></svg>'
+};
+
+const grid = document.getElementById('grid');
+const chipsEl = document.getElementById('chips');
+const countEl = document.getElementById('count');
+const emptyEl = document.getElementById('empty');
+const searchEl = document.getElementById('search');
+const sortEl = document.getElementById('sort');
+const overlay = document.getElementById('overlay');
+const modalBody = document.getElementById('modalBody');
+const toastEl = document.getElementById('toast');
+const wishCountEl = document.getElementById('wishCount');
+
+let wishlist = [];
+let activeCat = "All";
+
+function safeGet(key){
+  try{ return JSON.parse(localStorage.getItem(key)) || []; }catch(e){ return []; }
+}
+function safeSet(key,val){
+  try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){}
+}
+wishlist = safeGet('atelier_elite_wishlist');
+
+function money(n){
+  return "₹" + n.toLocaleString('en-IN');
+}
+
+function initials(brand){
+  return brand.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+}
+
+const cats = ["All", ...new Set(products.map(p=>p.cat))];
+cats.forEach(c=>{
+  const b = document.createElement('button');
+  b.className = 'chip' + (c==='All'?' active':'');
+  b.textContent = c;
+  b.onclick = ()=>{ activeCat = c;
+    [...chipsEl.children].forEach(ch=>ch.classList.remove('active'));
+    b.classList.add('active'); render(); };
+  chipsEl.appendChild(b);
+});
+
+function cardHTML(p, forModal){
+  const isWished = wishlist.includes(p.id);
+  const h = forModal ? 220 : p.h;
+  return `
+    <div class="art">
+      ${forModal ? '' : `<span class="tag">${p.cat}</span>`}
+      <button class="heart ${isWished?'on':''}" data-id="${p.id}" aria-label="Save"></button>
+      <img src="${p.img}" alt="${p.brand} ${p.item}" loading="lazy">
+    </div>
+    <div class="info">
+      <h3>${p.brand}</h3>
+      <div style="font-size:13px;color:var(--ink-soft);margin-bottom:6px;">${p.item}</div>
+      <div class="price">${money(p.price)}</div>
+      <p class="desc">${p.desc}</p>
+      <button class="buy" data-buy="${p.id}">Buy now</button>
+    </div>`;
+}
+
+function render(){
+  const q = searchEl.value.trim().toLowerCase();
+  let list = products.filter(p=>{
+    const matchCat = activeCat==='All' || p.cat===activeCat;
+    const matchQ = !q || (p.brand+' '+p.item).toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  const sort = sortEl.value;
+  if(sort==='low') list.sort((a,b)=>a.price-b.price);
+  if(sort==='high') list.sort((a,b)=>b.price-a.price);
+  if(sort==='az') list.sort((a,b)=>a.brand.localeCompare(b.brand));
+
+  grid.innerHTML = '';
+  list.forEach((p,i)=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.animationDelay = (i*0.04)+'s';
+    card.innerHTML = cardHTML(p,false);
+    card.addEventListener('click', (e)=>{
+      if(e.target.closest('.heart') || e.target.closest('.buy')) return;
+      openModal(p);
+    });
+    grid.appendChild(card);
+  });
+
+  countEl.textContent = `${list.length} piece${list.length!==1?'s':''} in view`;
+  emptyEl.classList.toggle('show', list.length===0);
+}
+
+grid.addEventListener('click', (e)=>{
+  const heart = e.target.closest('.heart');
+  if(heart){
+    const id = Number(heart.dataset.id);
+    toggleWish(id);
+    heart.classList.toggle('on');
+  }
+  const buy = e.target.closest('[data-buy]');
+  if(buy){
+    const p = products.find(x=>x.id===Number(buy.dataset.buy));
+    showToast(`${p.brand} ${p.item} added — thank you for your selection.`);
+  }
+});
+
+function toggleWish(id){
+  if(wishlist.includes(id)) wishlist = wishlist.filter(x=>x!==id);
+  else wishlist.push(id);
+  safeSet('atelier_elite_wishlist', wishlist);
+  updateWishCount();
+}
+
+function updateWishCount(){
+  wishCountEl.textContent = wishlist.length;
+  wishCountEl.style.display = wishlist.length ? 'flex' : 'none';
+}
+
+function openModal(p){
+  modalBody.innerHTML = `<button class="close" id="modalClose">✕</button>` + cardHTML(p, true);
+  overlay.classList.add('show');
+}
+overlay.addEventListener('click', (e)=>{
+  if(e.target===overlay || e.target.id==='modalClose') overlay.classList.remove('show');
+  const heart = e.target.closest('.heart');
+  if(heart){ toggleWish(Number(heart.dataset.id)); heart.classList.toggle('on'); }
+  const buy = e.target.closest('[data-buy]');
+  if(buy){
+    const p = products.find(x=>x.id===Number(buy.dataset.buy));
+    showToast(`${p.brand} ${p.item} added — thank you for your selection.`);
+    overlay.classList.remove('show');
+  }
+});
+
+let toastTimer;
+function showToast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>toastEl.classList.remove('show'), 2400);
+}
+
+document.getElementById('wishBtn').onclick = ()=>{
+  if(wishlist.length===0){ showToast("Your wishlist is empty."); return; }
+  activeCat = 'All';
+  [...chipsEl.children].forEach(ch=>ch.classList.remove('active'));
+  const list = products.filter(p=>wishlist.includes(p.id));
+  grid.innerHTML = '';
+  list.forEach((p,i)=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.animationDelay = (i*0.04)+'s';
+    card.innerHTML = cardHTML(p,false);
+    card.addEventListener('click', (e)=>{
+      if(e.target.closest('.heart') || e.target.closest('.buy')) return;
+      openModal(p);
+    });
+    grid.appendChild(card);
+  });
+  countEl.textContent = `${list.length} saved piece${list.length!==1?'s':''}`;
+  emptyEl.classList.toggle('show', list.length===0);
+};
+
+document.getElementById('themeBtn').onclick = ()=>{
+  const root = document.documentElement;
+  const current = root.getAttribute('data-theme');
+  root.setAttribute('data-theme', current==='dark' ? 'light' : 'dark');
+};
+
+searchEl.addEventListener('input', render);
+sortEl.addEventListener('change', render);
+
+updateWishCount();
+render();
+</script>
+</body>
+</html>
