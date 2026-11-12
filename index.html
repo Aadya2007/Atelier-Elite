@@ -293,8 +293,17 @@ function render(){
   emptyEl.classList.toggle("show",list.length===0);
 }
 function toggleWishlist(id){
-  wishlist=wishlist.includes(id)?wishlist.filter(value=>value!==id):[...wishlist,id];
-  writeStorage("atelier_elite_wishlist",wishlist);
+  id = Number(id);
+
+  wishlist = wishlist.map(Number);
+
+  if(wishlist.includes(id)){
+    wishlist = wishlist.filter(value => value !== id);
+  } else {
+    wishlist.push(id);
+  }
+
+  writeStorage("atelier_elite_wishlist", wishlist);
   updateWishlistCount();
   render();
 }
