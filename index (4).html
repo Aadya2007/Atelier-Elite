@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f2eee6">
+<title>ATELIER ÉLITE — Curated Luxury Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#25231f; --ink-soft:#777064; --paper:#f2eee6; --paper-dim:#e8e1d5;
+  --card:#faf8f3; --gold:#a99b83; --gold-bright:#b5a58d; --accent:#39352f;
+  --rule:#d8cfc1; --danger:#a45b50; color-scheme:light;
+}
+:root[data-theme="dark"] {
+  --ink:#f2eee6; --ink-soft:#c9c0b2; --paper:#201f1c; --paper-dim:#2a2824;
+  --card:#292722; --gold:#c2b398; --gold-bright:#d8cbb6; --accent:#b5a58d;
+  --rule:#48443d; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Manrope,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit}
+button{cursor:pointer}
+header{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--rule)}
+.top{display:flex;align-items:center;justify-content:space-between;padding:20px 5vw 14px}
+.brand-lockup{display:flex;flex-direction:column;gap:3px}
+.wordmark{font-family:"Cormorant Garamond",serif;font-size:clamp(30px,4vw,43px);letter-spacing:.055em;font-weight:500;margin:0;line-height:1}
+.brand-tagline{margin:5px 0 0;color:var(--ink-soft);font-size:9px;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+.tools{display:flex;align-items:center;gap:10px}
+.round-btn{position:relative;background:none;border:1px solid var(--rule);color:var(--ink);height:40px;min-width:40px;padding:0 12px;border-radius:24px;display:flex;align-items:center;justify-content:center;gap:7px;transition:.2s}
+.round-btn:hover{border-color:var(--gold-bright)}
+.count-bubble{position:absolute;top:-6px;right:-5px;background:var(--accent);color:#fff;font-size:10px;min-width:17px;height:17px;border-radius:12px;display:none;align-items:center;justify-content:center;padding:0 4px}
+.controls{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;justify-content:space-between;padding:0 5vw 17px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:12px;padding:7px 14px;border:1px solid var(--rule);border-radius:20px;background:transparent;color:var(--ink-soft);transition:.2s}
+.chip.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+:root[data-theme="dark"] .chip.active{background:var(--gold-bright);color:#161310;border-color:var(--gold-bright)}
+.searchsort{display:flex;gap:9px;align-items:center}
+#search,#sort{font-size:12px;padding:9px 13px;border:1px solid var(--rule);border-radius:22px;background:var(--card);color:var(--ink);outline:none}
+#search{width:190px}
+#search:focus,#sort:focus{border-color:var(--gold-bright)}
+main{padding:8px 5vw 65px}
+.intro{text-align:center;padding:38px 0 26px}
+.intro-kicker{margin:0 0 10px;color:var(--ink-soft);font-size:9px;font-weight:700;letter-spacing:.24em}
+.intro h1{margin:0;font-family:"Cormorant Garamond",serif;font-size:clamp(30px,4vw,46px);font-weight:400;line-height:1.1}
+.intro h1 em{color:var(--gold);font-style:italic}
+.intro-copy{margin:11px auto 0;max-width:490px;color:var(--ink-soft);font-size:12px;line-height:1.7}
+.count{font-size:12px;color:var(--ink-soft);margin:0 0 15px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;align-items:stretch}
+.card{display:flex;flex-direction:column;min-width:0;background:var(--card);border:1px solid var(--rule);border-radius:4px;overflow:hidden;animation:rise .4s ease both;cursor:pointer}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.art{position:relative;width:100%;height:290px;flex:0 0 290px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:12px;background:var(--paper-dim)}
+.art img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;padding:7px;transition:transform .4s ease}
+.card:hover .art img{transform:scale(1.025)}
+.tag{position:absolute;top:13px;left:13px;background:rgba(37,35,31,.78);color:#fff;font-size:10px;letter-spacing:.05em;padding:5px 10px;border-radius:20px}
+.heart{position:absolute;top:11px;right:11px;width:33px;height:33px;border:0;border-radius:50%;background:rgba(255,255,255,.9);color:#a33b35;font-size:19px;display:grid;place-items:center}
+.heart::before{content:"♡"}.heart.on::before{content:"♥"}
+.info{display:flex;flex-direction:column;flex:1;padding:15px 15px 16px}
+.info h3{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:19px;line-height:1.15;margin:0 0 4px;min-height:22px}
+.item-name{font-size:12px;color:var(--ink-soft);margin-bottom:8px;min-height:18px}
+.price{color:var(--gold);font-weight:700;font-size:14px;margin:0 0 7px}
+.desc{font-size:11px;color:var(--ink-soft);line-height:1.5;margin:0 0 15px;min-height:34px}
+.buy{width:100%;margin-top:auto;padding:11px 10px;background:var(--accent);color:#f6f1e9;border:1px solid var(--accent);border-radius:2px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;transition:.2s}
+.buy:hover{background:var(--gold);border-color:var(--gold);color:#161310}
+.empty{display:none;text-align:center;padding:75px 20px;color:var(--ink-soft);font-size:13px}
+.empty.show{display:block}
+.overlay{position:fixed;inset:0;background:rgba(10,9,8,.62);display:none;align-items:center;justify-content:center;z-index:40;padding:20px}
+.overlay.show{display:flex}
+.modal{position:relative;background:var(--card);max-width:520px;width:100%;max-height:90vh;overflow:auto;border:1px solid var(--rule);border-radius:5px}
+.modal .art{height:300px;flex-basis:300px}
+.modal .info{padding:22px}
+.modal .info h3{font-size:25px}
+.modal .desc{font-size:13px;min-height:0}
+.close{position:absolute;top:12px;right:12px;z-index:2;background:rgba(255,255,255,.9);color:#222;border:0;width:32px;height:32px;border-radius:50%;font-size:18px}
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:60;display:none;justify-content:flex-end}
+.cart-overlay.show{display:flex}
+.cart-panel{background:var(--card);color:var(--ink);width:min(440px,100%);height:100%;padding:25px 22px;display:flex;flex-direction:column;overflow-y:auto;animation:slide .25s ease}
+@keyframes slide{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.cart-heading{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--rule);padding-bottom:15px}
+.cart-heading h2{font-family:"Cormorant Garamond",serif;font-size:29px;font-weight:500;margin:0}
+.cart-close{border:0;background:transparent;color:var(--ink);font-size:28px}
+.cart-item{display:grid;grid-template-columns:78px 1fr;gap:13px;padding:17px 0;border-bottom:1px solid var(--rule)}
+.cart-item img{width:78px;height:88px;object-fit:contain;background:var(--paper-dim)}
+.cart-item h4{font-family:"Cormorant Garamond",serif;font-size:18px;margin:0 0 3px}
+.cart-item p{font-size:11px;color:var(--ink-soft);margin:0 0 6px}
+.cart-item strong{font-size:12px}
+.cart-actions{display:flex;align-items:center;gap:8px;margin-top:9px}
+.cart-actions button{background:transparent;border:1px solid var(--rule);color:var(--ink);padding:3px 9px}
+.cart-actions .remove-item{border:0;color:var(--danger)}
+.cart-empty{text-align:center;color:var(--ink-soft);padding:65px 10px;font-size:13px}
+.cart-footer{margin-top:auto;padding-top:20px}
+.cart-total{display:flex;justify-content:space-between;margin-bottom:16px;font-size:15px}
+.cart-note{text-align:center;color:var(--ink-soft);font-size:10px;line-height:1.5;margin:11px 0 0}
+.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:11px 20px;border-radius:30px;font-size:12px;opacity:0;transition:.25s;z-index:80;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+footer{border-top:1px solid var(--rule);padding:24px 5vw;text-align:center;color:var(--ink-soft);font-size:10px;letter-spacing:.12em}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.art{height:235px;flex-basis:235px}.info{padding:12px}.info h3{font-size:17px}.desc{font-size:10px}.top{padding:17px 4vw 12px}.controls{padding:0 4vw 14px}.searchsort{width:100%}#search{flex:1;min-width:0}.intro{padding:29px 0 21px}main{padding-left:4vw;padding-right:4vw}}
+@media(max-width:420px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.art{height:190px;flex-basis:190px}.info{padding:10px}.info h3{font-size:16px}.item-name{font-size:10px}.desc{font-size:10px;min-height:45px}.price{font-size:12px}.buy{font-size:9px;padding:10px 5px}.brand-tagline{font-size:7px}.tools{gap:6px}.round-btn{min-width:36px;height:36px;padding:0 9px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div class="brand-lockup">
+      <p class="wordmark">ATELIER ÉLITE</p>
+      <p class="brand-tagline">Less, but exceptional.</p>
+    </div>
+    <div class="tools">
+      <button class="round-btn" id="themeBtn" aria-label="Toggle colour theme" title="Toggle theme">◐</button>
+      <button class="round-btn" id="wishBtn" aria-label="Show wishlist" title="Wishlist">♡<span class="count-bubble" id="wishCount">0</span></button>
+      <button class="round-btn" id="cartBtn" aria-label="Open shopping bag" title="Shopping bag">Bag<span class="count-bubble" id="cartCount">0</span></button>
+    </div>
+  </div>
+  <div class="controls">
+    <div class="chips" id="chips"></div>
+    <div class="searchsort">
+      <input id="search" type="search" placeholder="Search the edit…" aria-label="Search products">
+      <select id="sort" aria-label="Sort products">
+        <option value="curated">Curated</option>
+        <option value="low">Price: low to high</option>
+        <option value="high">Price: high to low</option>
+        <option value="az">Name A–Z</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="intro">
+    <p class="intro-kicker">THE ART OF REFINED STYLE</p>
+    <h1>Timeless pieces. <em>Considered details.</em></h1>
+    <p class="intro-copy">A considered selection of exceptional fashion, accessories and fine jewellery.</p>
+  </section>
+  <p class="count" id="count" aria-live="polite"></p>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">Nothing matches that search — try another term.</div>
+</main>
+
+<footer>ATELIER ÉLITE &nbsp;·&nbsp; A CURATED EXPRESSION OF MODERN LUXURY</footer>
+
+<div class="overlay" id="overlay" aria-hidden="true">
+  <div class="modal" id="modalBody" role="dialog" aria-modal="true" aria-label="Product details"></div>
+</div>
+
+<div class="cart-overlay" id="cartOverlay" aria-hidden="true">
+  <aside class="cart-panel" role="dialog" aria-modal="true" aria-label="Shopping bag">
+    <div class="cart-heading">
+      <h2>Your Selection</h2>
+      <button id="cartClose" class="cart-close" aria-label="Close shopping bag">×</button>
+    </div>
+    <div id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="cart-total"><span>Subtotal</span><strong id="cartTotal">₹0</strong></div>
+      <button class="buy" id="checkoutBtn">Proceed to Checkout</button>
+      <p class="cart-note">Shipping and taxes, if applicable, are calculated separately. Checkout is a demo and payment is not enabled.</p>
+    </div>
+  </aside>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+/*
+  IMAGE SETUP:
+  Keep the existing hosted image URLs below, or replace them with your own.
+  Upload the two new images into a repository folder named "images":
+    images/saint-laurent-sl567.jpg
+    images/snow-peak-beanie.jpg
+
+  Chanel and Graff are intentionally not included in this catalogue.
+*/
+
+const products = [
+  {id:1,img:"https://i.postimg.cc/fbgbmKLh/Screenshot-2025-04-30-214053.png",brand:"Bottega Veneta",item:"Leather Shirt",cat:"Apparel",price:623290,desc:"Flannel-effect printed leather.",h:300},
+  {id:2,img:"https://i.postimg.cc/g2tCzBj8/Screenshot-2025-04-30-215300.png",brand:"Gucci",item:"Wool Coat",cat:"Apparel",price:846392,desc:"Green-white houndstooth pattern.",h:260},
+  {id:3,img:"https://i.postimg.cc/qRSzVLVG/Screenshot-2025-04-30-213715.png",brand:"Valentino",item:"Wool Blazer",cat:"Apparel",price:357000,desc:"Ivory wool blend with a monogram pattern.",h:230},
+  {id:4,img:"https://i.postimg.cc/fRdVWnbV/Screenshot-20250501-091318-2.png",brand:"Monsieur Fred",item:"Inner Light Jewellery",cat:"Jewelry",price:2020000,desc:"Gemstones bursting with life.",h:280},
+  {id:5,img:"https://i.postimg.cc/W1TtvzKx/Screenshot-2025-04-30-213949.png",brand:"Louis Vuitton",item:"Keepall Bag",cat:"Bags",price:7851558,desc:"Modern travel bag in a large size.",h:320},
+  {id:6,img:"https://i.postimg.cc/NFXLgHQv/Screenshot-2025-04-30-213905.png",brand:"Dior",item:"Sweater",cat:"Apparel",price:106588,desc:"Wool and cashmere blend.",h:250},
+  {id:7,img:"https://i.postimg.cc/v8x47pf2/Screenshot-2025-04-30-213813.png",brand:"Celine",item:"Triomphe Bag",cat:"Bags",price:454800,desc:"Leather bag with signature clasp.",h:270},
+  {id:8,img:"https://i.postimg.cc/gkvrQ8Mv/Screenshot-2025-04-30-213849.png",brand:"Calvin Klein",item:"T-Shirt",cat:"Apparel",price:3830,desc:"Regenerative cotton.",h:210},
+  {id:9,img:"https://i.postimg.cc/7ZHxtYns/IMG-0315.jpg",brand:"Cartier",item:"Panthère de Cartier Necklace",cat:"Jewelry",price:1810000,desc:"Detailed with tsavorite and onyx.",h:300},
+  {id:10,img:"https://i.postimg.cc/RVwb19Nd/Screenshot-2025-05-03-212512.png",brand:"Tiffany & Co.",item:"Diamond Bracelet",cat:"Jewelry",price:2540000,desc:"18k gold and pavé diamonds.",h:260},
+  {id:11,img:"images/saint-laurent-sl567.jpg",brand:"Saint Laurent",item:"SL 567 Plump Sunglasses",cat:"Accessories",price:14063,desc:"Sculptural oval frames with a refined, understated silhouette.",h:300},
+  {id:12,img:"images/snow-peak-beanie.jpg",brand:"Snow Peak",item:"Folded Beanie — Burgundy",cat:"Accessories",price:4000,desc:"Ribbed knit beanie with a folded cuff and signature woven patch.",h:300}
+];
+
+const grid=document.getElementById("grid");
+const chipsEl=document.getElementById("chips");
+const countEl=document.getElementById("count");
+const emptyEl=document.getElementById("empty");
+const searchEl=document.getElementById("search");
+const sortEl=document.getElementById("sort");
+const overlay=document.getElementById("overlay");
+const modalBody=document.getElementById("modalBody");
+const toastEl=document.getElementById("toast");
+const wishCountEl=document.getElementById("wishCount");
+const cartCountEl=document.getElementById("cartCount");
+const cartOverlay=document.getElementById("cartOverlay");
+const cartItemsEl=document.getElementById("cartItems");
+const cartTotalEl=document.getElementById("cartTotal");
+
+let activeCat="All";
+let showingWishlist=false;
+let wishlist=readStorage("atelier_elite_wishlist");
+let cart=readStorage("atelier_elite_cart");
+let toastTimer;
+
+function readStorage(key){
+  try{
+    const value=JSON.parse(localStorage.getItem(key));
+    return Array.isArray(value)?value:[];
+  }catch(error){return [];}
+}
+function writeStorage(key,value){
+  try{localStorage.setItem(key,JSON.stringify(value));}
+  catch(error){console.warn("Local storage is unavailable.",error);}
+}
+function money(value){
+  return "₹"+Number(value).toLocaleString("en-IN");
+}
+function showToast(message){
+  toastEl.textContent=message;
+  toastEl.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>toastEl.classList.remove("show"),2300);
+}
+function imageMarkup(p){
+  return `<img src="${p.img}" alt="${escapeHTML(p.brand+" "+p.item)}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/600x600/e8e1d5/777064?text=Image+Unavailable';">`;
+}
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+}
+function cardHTML(p){
+  const wished=wishlist.includes(p.id);
+  return `
+    <div class="art">
+      <span class="tag">${escapeHTML(p.cat)}</span>
+      <button class="heart ${wished?"on":""}" data-heart="${p.id}" aria-label="${wished?"Remove from":"Add to"} wishlist"></button>
+      ${imageMarkup(p)}
+    </div>
+    <div class="info">
+      <h3>${escapeHTML(p.brand)}</h3>
+      <div class="item-name">${escapeHTML(p.item)}</div>
+      <div class="price">${money(p.price)}</div>
+      <p class="desc">${escapeHTML(p.desc)}</p>
+      <button class="buy" data-buy="${p.id}">Add to Cart</button>
+    </div>`;
+}
+function productCard(p,index){
+  const card=document.createElement("article");
+  card.className="card";
+  card.style.animationDelay=(index*.035)+"s";
+  card.innerHTML=cardHTML(p);
+  card.addEventListener("click",event=>{
+    if(event.target.closest("button"))return;
+    openModal(p);
+  });
+  return card;
+}
+function renderChips(){
+  const categories=["All",...new Set(products.map(p=>p.cat))];
+  chipsEl.innerHTML="";
+  categories.forEach(category=>{
+    const button=document.createElement("button");
+    button.className="chip"+(category===activeCat?" active":"");
+    button.textContent=category;
+    button.addEventListener("click",()=>{
+      activeCat=category;
+      showingWishlist=false;
+      renderChips();
+      render();
+    });
+    chipsEl.appendChild(button);
+  });
+}
+function getVisibleProducts(){
+  let list=products.filter(p=>{
+    const matchesCategory=activeCat==="All"||p.cat===activeCat;
+    const query=searchEl.value.trim().toLowerCase();
+    const matchesSearch=!query||(p.brand+" "+p.item+" "+p.cat).toLowerCase().includes(query);
+    const matchesWishlist=!showingWishlist||wishlist.includes(p.id);
+    return matchesCategory&&matchesSearch&&matchesWishlist;
+  });
+  if(sortEl.value==="low")list.sort((a,b)=>a.price-b.price);
+  if(sortEl.value==="high")list.sort((a,b)=>b.price-a.price);
+  if(sortEl.value==="az")list.sort((a,b)=>a.brand.localeCompare(b.brand));
+  return list;
+}
+function render(){
+  const list=getVisibleProducts();
+  grid.innerHTML="";
+  list.forEach((p,index)=>grid.appendChild(productCard(p,index)));
+  countEl.textContent=showingWishlist
+    ?`${list.length} saved piece${list.length===1?"":"s"}`
+    :`${list.length} piece${list.length===1?"":"s"} in view`;
+  emptyEl.classList.toggle("show",list.length===0);
+}
+function toggleWishlist(id){
+  wishlist=wishlist.includes(id)?wishlist.filter(value=>value!==id):[...wishlist,id];
+  writeStorage("atelier_elite_wishlist",wishlist);
+  updateWishlistCount();
+  render();
+}
+function updateWishlistCount(){
+  wishCountEl.textContent=wishlist.length;
+  wishCountEl.style.display=wishlist.length?"flex":"none";
+}
+function addToCart(id){
+  const existing=cart.find(item=>item.id===id);
+  if(existing)existing.qty+=1;
+  else cart.push({id,qty:1});
+  writeStorage("atelier_elite_cart",cart);
+  updateCart();
+  showToast("Added to your selection.");
+}
+function updateCart(){
+  cart=cart.filter(item=>products.some(p=>p.id===item.id)&&Number(item.qty)>0);
+  writeStorage("atelier_elite_cart",cart);
+  const quantity=cart.reduce((sum,item)=>sum+item.qty,0);
+  cartCountEl.textContent=quantity;
+  cartCountEl.style.display=quantity?"flex":"none";
+  renderCart();
+}
+function renderCart(){
+  if(!cart.length){
+    cartItemsEl.innerHTML='<div class="cart-empty">Your selection is currently empty.</div>';
+    cartTotalEl.textContent=money(0);
+    return;
+  }
+  let total=0;
+  cartItemsEl.innerHTML=cart.map(item=>{
+    const p=products.find(product=>product.id===item.id);
+    if(!p)return "";
+    total+=p.price*item.qty;
+    return `
+      <div class="cart-item">
+        ${imageMarkup(p)}
+        <div>
+          <h4>${escapeHTML(p.brand)}</h4>
+          <p>${escapeHTML(p.item)}</p>
+          <strong>${money(p.price)}</strong>
+          <div class="cart-actions">
+            <button data-cart-action="minus" data-id="${p.id}" aria-label="Decrease quantity">−</button>
+            <span>${item.qty}</span>
+            <button data-cart-action="plus" data-id="${p.id}" aria-label="Increase quantity">+</button>
+            <button class="remove-item" data-cart-action="remove" data-id="${p.id}">Remove</button>
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+  cartTotalEl.textContent=money(total);
+}
+function openModal(p){
+  modalBody.innerHTML=`
+    <button class="close" id="modalClose" aria-label="Close product details">×</button>
+    <div class="art">${imageMarkup(p)}</div>
+    <div class="info">
+      <h3>${escapeHTML(p.brand)}</h3>
+      <div class="item-name">${escapeHTML(p.item)}</div>
+      <div class="price">${money(p.price)}</div>
+      <p class="desc">${escapeHTML(p.desc)}</p>
+      <button class="buy" data-buy="${p.id}">Add to Cart</button>
+    </div>`;
+  overlay.classList.add("show");
+  overlay.setAttribute("aria-hidden","false");
+}
+function closeModal(){
+  overlay.classList.remove("show");
+  overlay.setAttribute("aria-hidden","true");
+}
+function openCart(){
+  cartOverlay.classList.add("show");
+  cartOverlay.setAttribute("aria-hidden","false");
+  updateCart();
+}
+function closeCart(){
+  cartOverlay.classList.remove("show");
+  cartOverlay.setAttribute("aria-hidden","true");
+}
+
+grid.addEventListener("click",event=>{
+  const heart=event.target.closest("[data-heart]");
+  if(heart){
+    event.stopPropagation();
+    toggleWishlist(Number(heart.dataset.heart));
+    return;
+  }
+  const buy=event.target.closest("[data-buy]");
+  if(buy){
+    event.stopPropagation();
+    addToCart(Number(buy.dataset.buy));
+  }
+});
+overlay.addEventListener("click",event=>{
+  if(event.target===overlay||event.target.id==="modalClose"){closeModal();return;}
+  const buy=event.target.closest("[data-buy]");
+  if(buy){
+    addToCart(Number(buy.dataset.buy));
+    closeModal();
+  }
+});
+cartItemsEl.addEventListener("click",event=>{
+  const button=event.target.closest("[data-cart-action]");
+  if(!button)return;
+  const id=Number(button.dataset.id);
+  const item=cart.find(entry=>entry.id===id);
+  if(!item)return;
+  if(button.dataset.cartAction==="plus")item.qty+=1;
+  if(button.dataset.cartAction==="minus")item.qty-=1;
+  if(button.dataset.cartAction==="remove"||item.qty<=0)cart=cart.filter(entry=>entry.id!==id);
+  writeStorage("atelier_elite_cart",cart);
+  updateCart();
+});
+document.getElementById("wishBtn").addEventListener("click",()=>{
+  showingWishlist=!showingWishlist;
+  activeCat="All";
+  searchEl.value="";
+  renderChips();
+  render();
+  document.querySelector("main").scrollIntoView({behavior:"smooth"});
+  if(showingWishlist)showToast("Showing your wishlist.");
+});
+document.getElementById("cartBtn").addEventListener("click",openCart);
+document.getElementById("cartClose").addEventListener("click",closeCart);
+cartOverlay.addEventListener("click",event=>{if(event.target===cartOverlay)closeCart();});
+document.getElementById("checkoutBtn").addEventListener("click",()=>{
+  showToast("Checkout and payment are not connected yet.");
+});
+document.getElementById("themeBtn").addEventListener("click",()=>{
+  const root=document.documentElement;
+  const next=root.getAttribute("data-theme")==="dark"?"light":"dark";
+  root.setAttribute("data-theme",next);
+  try{localStorage.setItem("atelier_elite_theme",next);}catch(error){}
+});
+searchEl.addEventListener("input",()=>{
+  showingWishlist=false;
+  render();
+});
+sortEl.addEventListener("change",render);
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape"){closeModal();closeCart();}
+});
+
+try{
+  const savedTheme=localStorage.getItem("atelier_elite_theme");
+  if(savedTheme==="dark"||savedTheme==="light")document.documentElement.setAttribute("data-theme",savedTheme);
+}catch(error){}
+
+renderChips();
+updateWishlistCount();
+updateCart();
+render();
+</script>
+</body>
+</html>
